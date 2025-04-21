@@ -9,6 +9,9 @@ import com.example.text_classification.data.model.Article
 import com.example.text_classification.data.sentimentanalysis.SentimentAnalyzer
 import com.example.text_classification.databinding.ItemNewsBinding
 
+import com.bumptech.glide.Glide;
+import  com.example.text_classification.R;
+
 class NewsPagingAdapter(
     private val analyzer: SentimentAnalyzer
 ) : PagingDataAdapter<Article, NewsPagingAdapter.NewsViewHolder>(COMPARATOR) {
@@ -19,6 +22,12 @@ class NewsPagingAdapter(
             binding.titleTextView.text = article.title
             binding.descriptionTextView.text = article.description
             binding.sentimentTextView.text = analyzer.analyze(article.title ?: "")
+            Glide.with(binding.imageView)
+                .load(article.urlToImage)
+                .placeholder(R.drawable.default_img) // hiển thị trong lúc loading
+                .error(R.drawable.default_img)
+                .into(binding.imageView)
+
         }
     }
 
